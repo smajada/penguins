@@ -4,15 +4,21 @@ from flask import Flask, jsonify, request
 
 penguin_species = ['Adelie', 'Chinstrap', 'Gentoo']
 
-def predict_single(model, input_data):
-    prediction = model.predict([input_data])
-    species = penguin_species[prediction[0]]
-    return species
+def predict_single(penguin, dv, model):
+    penguin_std = dv.transform([penguin])
+    y_pred = model.predict(penguin_std)[0]
+    y_prob = model.predict_proba(penguin_std)[0][y_pred]
+    return (y_pred, y_prob)
 
-def predict(model, input_data):
-    predictions = model.predict(input_data)
-    species = [penguin_species[pred] for pred in predictions]
-    return species
+def predict(dv, model):
+    penguin = request.get_json()
+    specie, probability = predict_single(penguin, dv, model)
+
+    result = {
+        'penguin': penguin_species[specie],
+        'probability': float(probability)
+    }
+    return jsonify(result)
 
 app = Flask("PenguinSpeciesPredictor")
 
