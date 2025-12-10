@@ -24,25 +24,25 @@ app = Flask("PenguinSpeciesPredictor")
 
 @app.route("/predict_lr", methods=["POST"])
 def predict_lr():
-    with open("models/lr.pkl", "rb") as f:
+    with open("models\lr.pck", "rb") as f:
         dv, model = pickle.load(f)
     return predict(dv, model)
 
 @app.route("/predict_svm", methods=["POST"])
 def predict_svm():
-    with open("models/svm.pkl", "rb") as f:
+    with open("models\svm.pck", "rb") as f:
         dv, model = pickle.load(f)
     return predict(dv, model)
 
 @app.route("/predict_dt", methods=["POST"])
 def predict_dt():
-    with open("models/dt.pkl", "rb") as f:
+    with open("models\dt.pck", "rb") as f:
         dv, model = pickle.load(f)
     return predict(dv, model)
 
 @app.route("/predict_knn", methods=["POST"])
 def predict_knn():
-    with open("models/knn.pkl", "rb") as f:
+    with open("models\knn.pck", "rb") as f:
         dv, model = pickle.load(f)
     return predict(dv, model)
 
